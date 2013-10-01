@@ -179,12 +179,20 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="bx-wrapper"><div class="bx-viewport"></div></div>');
+//-----20131001 Traxus modified: I was having an issue with the bx-loader div displaying
+//----------I found it easier to append the class to bx-wrapper and style the bx-wrapper.bx-loader selection chain
+//----------This is the new element wrapper, it is flagged as loading upon creation
+//el.wrap('<div class="bx-wrapper"><div class="bx-viewport"></div></div>');
+el.wrap('<div class="bx-wrapper bx-loading"><div class="bx-viewport"></div></div>');
 			// store a namspace reference to .bx-viewport
 			slider.viewport = el.parent();
 			// add a loading div to display while images are loading
-			slider.loader = $('<div class="bx-loading" />');
-			slider.viewport.prepend(slider.loader);
+			
+//-----20131001 Traxus modified: I was having an issue with the bx-loader div displaying
+//----------Remove creation of bx-loading div as it is now handled in the wrapper
+//slider.loader = $('<div class="bx-loading" />');
+//slider.viewport.prepend(slider.loader);
+
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
@@ -292,7 +300,14 @@
 				el.append(sliceAppend).prepend(slicePrepend);
 			}
 			// remove the loading DOM element
-			slider.loader.remove();
+//-----20131001 Traxus modified: I was having an issue with the bx-loader div displaying
+//----------This is now irrelevant because we're flagging the bx-wrapper div as loading instead... 
+//slider.loader.remove();
+
+//-----20131001 Traxus modified: I was having an issue with the bx-loader div displaying
+//----------Remove bx-loading class from the wrapper once loaded.
+el.closest('.bx-wrapper').removeClass('bx-loading');
+
 			// set the left / top position of "el"
 			setSlidePosition();
 			// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
